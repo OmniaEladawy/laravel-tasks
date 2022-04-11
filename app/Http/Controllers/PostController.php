@@ -35,31 +35,20 @@ class PostController extends Controller
         return view('posts.create');
     }
 
-    public function store(Request $request)
+    public function store()
     {
 
-        $input = request()->post();
-        dd($input);
+        $input = request()->all();
+        $post = [
+            "id" => count($this->allPosts) + 1,
+            "title" => request()['title'],
+            "createdBy" => request()['creator'],
+            "createdAt" => request()['createdAt'],
+        ];
 
-        //     $post = new Post();
+        array_push($this->allPosts, $post);
 
-        // $ASNumber = $request->input('ASNumber');
-        // $choice=$request->input('choice');
-        // $peeringDB=$request->input('peeringDB');
-        // $ASSET =$request->input('AS-SET');
-        // $Contact=$request->input('Contact');  
-
-        // $data = array(
-        //     'asnumber' => $ASNumber,
-        //     'peeringrs' => $choice,
-        //     'peeringdb' => $peeringDB,
-        //     'AS-SET' => $ASSET,
-        //     'contact' => $Contact
-        // );
-
-        // $post->save();
-        // return redirect('/');
-
+        return view('posts.index', ['allPosts' => $this->allPosts]);
     }
 
     public function show($id)
@@ -76,6 +65,23 @@ class PostController extends Controller
 
     public function edit($id)
     {
-        return view('posts.update');
+        $id = (int)$id;
+        $filteredPost = array_filter($this->allPosts, function ($post) use ($id) {
+            return $post["id"] === $id;
+        });
+
+        return view('posts.update', [
+            "filteredPost" => $filteredPost
+        ]);
+    }
+
+    public function delete($id)
+    {
+        return "deleted";
+    }
+
+    public function update($id)
+    {
+        return "updated";
     }
 }

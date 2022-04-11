@@ -45,7 +45,7 @@
                     <td>
                         <a href="/posts/{{$post['id']}}" type="button" class="btn btn-info mr-2">View</a>
                         <a href="/posts/{{$post['id']}}/edit" type="button" class="btn btn-primary mr-2">Edit</a>
-                        <a href="#" type="button" class="btn btn-danger mr-2">Delete</a>
+                        <button onclick="return confirm('Are you sure?')" type="button" class="btn btn-danger mr-2">Delete</button>
                     </td>
                 </tr>
                 @endforeach

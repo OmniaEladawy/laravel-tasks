@@ -22,26 +22,29 @@
         </div>
     </nav>
     <div class="container">
+        @foreach ($filteredPost as $post){
         <form>
             <div class="my-5">
                 <label class="form-label">Title</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" value={{$post['title']}}>
             </div>
             <div class="mb-5">
-                <label class="form-label d-block">Description</label>
-                <textarea rows="5" class="w-100 form-control"></textarea>
+                <label class="form-label d-block">time created</label>
+                <input type="text" class="form-control" value={{$post['createdAt']}}>
             </div>
             <div class="mb-5">
                 <label class="form-label d-block">Post Creator</label>
                 <select class="w-100 form-control">
+                    <option selected="selected">{{$post['createdBy']}}</option>
                     <option>Ahmed</option>
                     <option>Omnia</option>
                     <option>Mohamed</option>
                     <option>Ehdaa</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="/posts/" type="submit" class="btn btn-primary">Update</a>
         </form>
+        @endforeach
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
