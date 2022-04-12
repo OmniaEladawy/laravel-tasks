@@ -4,84 +4,80 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Post;
+use App\Models\User;
+
 class PostController extends Controller
 {
-    protected $allPosts;
-
-    public function __construct()
-    {
-        $this->allPosts = [
-            ['id' => 1, 'title' => 'first post', 'createdBy' => 'Omnia', 'createdAt' => '2022-04-10'],
-            ['id' => 2, 'title' => 'second post', 'createdBy' => 'Ahmed', 'createdAt' => '2022-03-18']
-        ];
-    }
 
     public function index()
     {
-        // $allPosts = [
-        //     ['id' => 1, 'title' => 'first post', 'createdBy' => 'Omnia', 'createdAt' => '2022-04-10'],
-        //     ['id' => 2, 'title' => 'second post', 'createdBy' => 'Ahmed', 'createdAt' => '2022-03-18']
-        // ];
 
-        // dd($allPosts); //stop exe and dump the variable
+        //$allposts = Post::all();
+        $posts = Post::paginate(3);
 
         return view('posts.index', [
-            'allPosts' => $this->allPosts
+            'allPosts' => $posts
         ]);
     }
 
     public function create()
     {
-        return view('posts.create');
+        $creators = User::all();
+        return view('posts.create', [
+            'creators' => $creators
+        ]);
     }
 
     public function store()
     {
+        $data = request()->post();
 
-        $input = request()->all();
-        $post = [
-            "id" => count($this->allPosts) + 1,
-            "title" => request()['title'],
-            "createdBy" => request()['creator'],
-            "createdAt" => request()['createdAt'],
-        ];
+        Post::create([
+            'title' => $data['title'],
+            'description' => $data['des'],
+            'user_id' => $data['creator']
+        ]);
 
-        array_push($this->allPosts, $post);
-
-        return view('posts.index', ['allPosts' => $this->allPosts]);
+        return to_route('posts.index'); //redirect to index function
     }
 
     public function show($id)
     {
-        $id = (int)$id;
-        $filteredPost = array_filter($this->allPosts, function ($post) use ($id) {
-            return $post["id"] === $id;
-        });
+        $postShow = Post::find($id);
+        // dd($postShow);
 
         return view('posts.show', [
-            "filteredPost" => $filteredPost
+            "postShow" => $postShow
         ]);
     }
 
     public function edit($id)
     {
-        $id = (int)$id;
-        $filteredPost = array_filter($this->allPosts, function ($post) use ($id) {
-            return $post["id"] === $id;
-        });
-
+        $postShow = Post::find($id);
+        $creators = User::all();
         return view('posts.update', [
-            "filteredPost" => $filteredPost
+            "postShow" => $postShow,
+            "creators" => $creators
         ]);
-    }
-
-    public function delete($id)
-    {
-        return "deleted";
     }
 
     public function update($id)
     {
-        return "updated";
+        $updatedPost = Post::find($id);
+        $data = request()->post();
+        $updatedPost->title = $data['title'];
+        $updatedPost->description = $data['des'];
+        $updatedPost->user_id = $data['creator'];
+        $updatedPost->save();
+        return to_route('posts.index'); //redirect to index function
+    }
+
+    public function delete($id)
+    {
+
+        $user = Post::find($id);
+        $user->delete();
+        return to_route('posts.index'); //redirect to index function
     }
 }
