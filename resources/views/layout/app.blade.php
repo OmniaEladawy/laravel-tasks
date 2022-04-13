@@ -17,11 +17,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link active" href="#">All Posts</a>
+                <a class="nav-link active" href="{{route('posts.index')}}">All Posts</a>
             </div>
         </div>
     </nav>
     <div class="container">
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         @yield('sec')
     </div>
 

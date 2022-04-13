@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 
 @section('title') show @endsection
 
@@ -24,5 +24,6 @@
         <p class="card-text">{{$postShow->created_at->format('l jS \\of F Y h:i:s A')}}</p>
     </div>
 </div>
+
 
 @endsection

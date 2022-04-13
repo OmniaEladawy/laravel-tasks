@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
 {
@@ -31,7 +32,14 @@ class PostController extends Controller
 
     public function store()
     {
+        request()->validate([
+            'title' => "required|unique:posts|min:3",
+            'des' => ['required', 'min:10'],
+            'creator' => 'required|exists:users,id'
+        ]);
+
         $data = request()->post();
+
 
         Post::create([
             'title' => $data['title'],
@@ -45,8 +53,6 @@ class PostController extends Controller
     public function show($id)
     {
         $postShow = Post::find($id);
-        // dd($postShow);
-
         return view('posts.show', [
             "postShow" => $postShow
         ]);
@@ -62,14 +68,15 @@ class PostController extends Controller
         ]);
     }
 
-    public function update($id)
+    public function update(StorePostRequest $request, Post $post)
     {
-        $updatedPost = Post::find($id);
+        //dd($post);
+        //$updatedPost = Post::find($post);
         $data = request()->post();
-        $updatedPost->title = $data['title'];
-        $updatedPost->description = $data['des'];
-        $updatedPost->user_id = $data['creator'];
-        $updatedPost->save();
+        $post->title = $data['title'];
+        $post->description = $data['des'];
+        $post->user_id = $data['creator'];
+        $post->save();
         return to_route('posts.index'); //redirect to index function
     }
 

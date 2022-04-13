@@ -1,8 +1,9 @@
-@extends('layout.app')
+@extends('layouts.app')
 
 @section('title') create @endsection
 
 @section('sec')
+
 <form method="POST" action="{{ route('posts.store') }}">
     @csrf
     <div class="my-5">
