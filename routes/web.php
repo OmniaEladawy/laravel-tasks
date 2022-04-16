@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Auth;
@@ -25,13 +26,21 @@ Route::get('/posts/create', [PostController::class, 'create'])->name('posts.crea
 
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 
+Route::post('/posts/{post}/store', [CommentController::class, 'store'])->name('comments.create');
+
 Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show')->middleware('auth');
 
 Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit')->middleware('auth');
 
+Route::get('/comments/{post}/{comment}/edit', [CommentController::class, 'edit'])->name('comments.edit')->middleware('auth');
+
 Route::delete('/posts/{post}', [PostController::class, 'delete'])->name('posts.delete');
 
+Route::delete('/comments/{post}/{comment}', [CommentController::class, 'delete'])->name('comments.delete');
+
 Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+
+Route::put('/comments/{post}/{comment}', [CommentController::class, 'update'])->name('comment.update');
 
 Auth::routes();
 

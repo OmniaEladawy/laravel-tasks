@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Http\Requests\StorePostRequest;
 
+
 class PostController extends Controller
 {
 
@@ -61,13 +62,14 @@ class PostController extends Controller
     {
         $postShow = Post::find($id);
 
-        $postShow->comments()->create([
-            'body' => 'test this two'
-        ]);
-
+        // $postShow->comments()->create([
+        //     'body' => 'test this two'
+        // ]);
         // foreach ($postShow->comments as $comment) {
-        // //
+        //     dd($comment->body);
         // }
+
+        //dd($postShow);
         return view('posts.show', [
             "postShow" => $postShow
         ]);
@@ -89,15 +91,6 @@ class PostController extends Controller
         //dd($post);
         //$updatedPost = Post::find($post);
         $data = request()->post();
-
-        if (request()->hasFile('image')) {
-            $destination_path = 'public/images';
-            $image = request()->file('image');
-            $image_name = $image->getClientOriginalName();
-            $path = request()->file('image')->storeAs($destination_path, $image_name);
-            $data['image'] = $image_name;
-        }
-
 
         $post->title = $data['title'];
         $post->description = $data['des'];
