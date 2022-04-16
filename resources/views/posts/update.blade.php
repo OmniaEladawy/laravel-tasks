@@ -5,7 +5,7 @@
 @section('sec')
 
 
-<form action="{{ route('posts.update',['post' => $postShow['id']]) }}" method="POST">
+<form action="{{ route('posts.update',['post' => $postShow['id']]) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="my-5">
@@ -15,6 +15,10 @@
     <div class="mb-5">
         <label class="form-label d-block">Description</label>
         <textarea rows="5" name="des" class="w-100 form-control">{{$postShow->description}}</textarea>
+    </div>
+    <div class="mb-5">
+        <label class="form-label d-block">Upload image</label>
+        <input type="file" name="image" class="form-control">
     </div>
     <div class="mb-5">
         <label class="form-label d-block">Post Creator</label>

@@ -13,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->id();
-            $table->text('body');
-            $table->integer('commentable_id');
-            $table->string('commentable_type');
-            $table->timestamps();
+        Schema::table('posts', function (Blueprint $table) {
+            $table->string('image')->nullable();
         });
     }
 
@@ -29,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::table('posts', function (Blueprint $table) {
+            //
+        });
     }
 };

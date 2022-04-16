@@ -4,7 +4,7 @@
 
 @section('sec')
 
-<form method="POST" action="{{ route('posts.store') }}">
+<form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
     @csrf
     <div class="my-5">
         <label class="form-label">Title</label>
@@ -13,6 +13,10 @@
     <div class="mb-5">
         <label class="form-label d-block">Description</label>
         <textarea rows="5" name="des" class="w-100 form-control"></textarea>
+    </div>
+    <div class="mb-5">
+        <label class="form-label d-block">Upload image</label>
+        <input type="file" name="image" class="form-control">
     </div>
     <div class="mb-5">
         <label class="form-label d-block">Post Creator</label>
