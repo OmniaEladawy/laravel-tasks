@@ -92,6 +92,15 @@ class PostController extends Controller
         //$updatedPost = Post::find($post);
         $data = request()->post();
 
+        if (request()->hasFile('image')) {
+            $destination_path = 'public/images';
+            $image = request()->file('image');
+            $image_name = $image->getClientOriginalName();
+            $path = request()->file('image')->storeAs($destination_path, $image_name);
+            $data['image'] = $image_name;
+        }
+
+
         $post->title = $data['title'];
         $post->description = $data['des'];
         $post->user_id = $data['creator'];
