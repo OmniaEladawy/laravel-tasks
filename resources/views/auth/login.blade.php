@@ -57,7 +57,8 @@
                                     {{ __('Login') }}
                                 </button>
 
-                                <a class="btn btn-dark" href="/auth/redirect">Login with github</a>
+                                <a class="btn btn-dark" href="/auth/redirect/github">Login with github</a>
+                                <a class="btn btn-dark" href="/auth/redirect/google">Login with google</a>
 
                                 @if (Route::has('password.request'))
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
